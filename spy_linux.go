@@ -5,6 +5,20 @@ import (
 	"sync"
 )
 
+const (
+	TCP_ESTABLISHED = iota + 1
+	TCP_SYN_SENT
+	TCP_SYN_RECV
+	TCP_FIN_WAIT1
+	TCP_FIN_WAIT2
+	TCP_TIME_WAIT
+	TCP_CLOSE
+	TCP_CLOSE_WAIT
+	TCP_LAST_ACK
+	TCP_LISTEN
+	TCP_CLOSING
+)
+
 var bufPool = sync.Pool{
 	New: func() interface{} {
 		return bytes.NewBuffer(make([]byte, 0, 5000))
@@ -50,7 +64,7 @@ var cbConnections = func(processes bool) (ConnIter, error) {
 	}
 
 	return &pnConnIter{
-		pn:    NewProcNet(buf.Bytes(), tcpEstablished),
+		pn:    NewProcNet(buf.Bytes()),
 		buf:   buf,
 		procs: procs,
 	}, nil

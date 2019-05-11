@@ -12,8 +12,9 @@ Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)
 tcp4       0      0  10.0.1.6.58287         1.2.3.4.443      		ESTABLISHED
 tcp4       0      0  10.0.1.6.58279         2.3.4.5.80         		ESTABLISHED
 tcp4       0      0  10.0.1.6.58276         44.55.66.77.443    		ESTABLISHED
-tcp4       0      0  10.0.1.6.1         	4.0.4.0.443    			GONE
-`
+tcp4       0      0  127.0.0.1.16423        *.*                    LISTEN
+tcp4       0      0  *.88                   *.*                    LISTEN`
+
 	res := parseDarwinNetstat(testString)
 	expected := []Connection{
 		{
@@ -37,6 +38,20 @@ tcp4       0      0  10.0.1.6.1         	4.0.4.0.443    			GONE
 			RemoteAddress: net.ParseIP("44.55.66.77"),
 			RemotePort:    443,
 		},
+		{
+			Transport:     "tcp",
+			LocalAddress:  net.ParseIP("127.0.0.1"),
+			LocalPort:     16423,
+			RemoteAddress: net.ParseIP("0.0.0.0"),
+			RemotePort:    0,
+		},
+		{
+			Transport:     "tcp",
+			LocalAddress:  net.ParseIP("0.0.0.0"),
+			LocalPort:     88,
+			RemoteAddress: net.ParseIP("0.0.0.0"),
+			RemotePort:    0,
+		},
 		/*
 			{
 				Transport:     "tcp",
@@ -48,8 +63,8 @@ tcp4       0      0  10.0.1.6.1         	4.0.4.0.443    			GONE
 		*/
 	}
 
-	if len(res) != 3 {
-		t.Errorf("Wanted 3")
+	if len(res) != 5 {
+		t.Errorf("Wanted 5")
 	}
 	if !reflect.DeepEqual(res, expected) {
 		t.Errorf("OS x netstat 4 error. Got\n%+v\nExpected\n%+v\n", res, expected)

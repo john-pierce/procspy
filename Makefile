@@ -4,7 +4,6 @@ all: test build buildall install
 build: 
 	go build
 	go vet
-	golint .
 
 buildall:
 	GOOS=darwin go build

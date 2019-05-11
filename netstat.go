@@ -3,6 +3,7 @@ package procspy
 // netstat reading.
 
 import (
+	"fmt"
 	"net"
 	"strconv"
 	"strings"
@@ -18,6 +19,7 @@ func parseDarwinNetstat(out string) []Connection {
 	//
 	res := []Connection{}
 	for i, line := range strings.Split(out, "\n") {
+		fmt.Println(line)
 		if i == 0 || i == 1 {
 			// Skip header
 			continue
@@ -29,45 +31,44 @@ func parseDarwinNetstat(out string) []Connection {
 			continue
 		}
 
-		if fields[5] != "ESTABLISHED" {
+		/*if fields[5] != "ESTABLISHED" {
 			continue
-		}
+		}*/
 
 		t := Connection{
 			Transport: "tcp",
 		}
 
-		// Format is <ip>.<port>
 		locals := strings.Split(fields[3], ".")
-		if len(locals) < 2 {
-			continue
+		var localAddress = strings.Join(locals[:len(locals)-1], ".")
+		var localPort = locals[len(locals)-1]
+		if strings.Contains(localAddress, "*") {
+			t.LocalAddress = net.IPv4(0, 0, 0, 0)
+		} else {
+			t.LocalAddress = net.ParseIP(localAddress)
 		}
-
-		var (
-			localAddress = strings.Join(locals[:len(locals)-1], ".")
-			localPort    = locals[len(locals)-1]
-		)
-
-		t.LocalAddress = net.ParseIP(localAddress)
-
+		if strings.Contains(localPort, "*") {
+			localPort = "0"
+		}
 		p, err := strconv.Atoi(localPort)
 		if err != nil {
 			return nil
 		}
-
 		t.LocalPort = uint16(p)
 
 		remotes := strings.Split(fields[4], ".")
-		if len(remotes) < 2 {
-			continue
+		var remoteAddress = strings.Join(remotes[:len(remotes)-1], ".")
+		var remotePort = remotes[len(remotes)-1]
+
+		if strings.Contains(remoteAddress, "*") {
+			t.RemoteAddress = net.IPv4(0, 0, 0, 0)
+		} else {
+			t.RemoteAddress = net.ParseIP(remoteAddress)
 		}
 
-		var (
-			remoteAddress = strings.Join(remotes[:len(remotes)-1], ".")
-			remotePort    = remotes[len(remotes)-1]
-		)
-
-		t.RemoteAddress = net.ParseIP(remoteAddress)
+		if strings.Contains(remotePort, "*") {
+			remotePort = "0"
+		}
 
 		p, err = strconv.Atoi(remotePort)
 		if err != nil {

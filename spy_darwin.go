@@ -17,9 +17,9 @@ const (
 var cbConnections = func(processes bool) (ConnIter, error) {
 	out, err := exec.Command(
 		netstatBinary,
-		"-n", // no number resolving
-		"-W", // Wide output
-		// "-l", // full IPv6 addresses // What does this do?
+		"-n",        // no number resolving
+		"-W",        // Wide output
+		"-a",        // full IPv6 addresses // What does this do?
 		"-p", "tcp", // only TCP
 	).CombinedOutput()
 	if err != nil {
