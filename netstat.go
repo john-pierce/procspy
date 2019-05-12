@@ -3,7 +3,6 @@ package procspy
 // netstat reading.
 
 import (
-	"fmt"
 	"net"
 	"strconv"
 	"strings"
@@ -19,7 +18,6 @@ func parseDarwinNetstat(out string) []Connection {
 	//
 	res := []Connection{}
 	for i, line := range strings.Split(out, "\n") {
-		fmt.Println(line)
 		if i == 0 || i == 1 {
 			// Skip header
 			continue
