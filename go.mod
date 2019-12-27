@@ -1,3 +1,3 @@
-module github.com/miklosn/procspy
+module github.com/john-pierce/procspy
 
-go 1.12
+go 1.13
