@@ -13,6 +13,10 @@ func TestLSOFParsing(t *testing.T) {
 			"ccello-app\n" +
 			"n127.0.0.1:48094->127.0.0.1:4039\n" +
 			"n*:4040\n": map[string]Proc{
+			"*:4040": Proc{
+				PID:  25196,
+				Name: "cello-app",
+			},
 			"127.0.0.1:48094": Proc{
 				PID:  25196,
 				Name: "cello-app",
@@ -23,7 +27,17 @@ func TestLSOFParsing(t *testing.T) {
 		"cdhclient\n" +
 			"n*:68\n" +
 			"n*:38282\n" +
-			"n*:40625\n": map[string]Proc{},
+			"n*:40625\n": map[string]Proc{
+			"*:68": Proc{
+				Name: "dhclient",
+			},
+			"*:38282": Proc{
+				Name: "dhclient",
+			},
+			"*:40625": Proc{
+				Name: "dhclient",
+			},
+		},
 
 		// A bunch
 		"p13100\n" +
@@ -41,6 +55,10 @@ func TestLSOFParsing(t *testing.T) {
 			"cssh\n" +
 			"n192.168.2.111:33963->192.168.2.71:22\n": map[string]Proc{
 			"[::1]:6600": Proc{
+				PID:  13100,
+				Name: "mpd",
+			},
+			"127.0.0.1:6600": Proc{
 				PID:  13100,
 				Name: "mpd",
 			},

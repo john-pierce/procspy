@@ -15,6 +15,9 @@ func Example() {
 
 	fmt.Printf("TCP Connections:\n")
 	for c := cs.Next(); c != nil; c = cs.Next() {
+		if !procspy.IsListening(*c) {
+			continue
+		}
 		fmt.Printf(" - %v\n", c)
 	}
 }

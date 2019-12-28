@@ -58,7 +58,7 @@ func parseLSOF(out string) (map[string]Proc, error) {
 			addresses := strings.SplitN(value, "->", 2)
 			if len(addresses) != 2 {
 				// That's a listen entry.
-				continue
+				// continue
 			}
 			res[addresses[0]] = Proc{
 				Name: cp.Name,

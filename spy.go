@@ -9,6 +9,7 @@ import (
 
 const (
 	tcpEstablished = 1 // according to /include/net/tcp_states.h
+	tcpListen      = 10
 )
 
 // Connection is a (TCP) connection. The Proc struct might not be filled in.
@@ -40,4 +41,16 @@ type ConnIter interface {
 // find all processes.
 func Connections(processes bool) (ConnIter, error) {
 	return cbConnections(processes)
+}
+
+func IsListening(c Connection) bool {
+	if c.Transport == "tcp" {
+		if c.RemoteAddress.Equal(net.IPv4zero) ||
+			c.RemoteAddress.Equal(net.IPv6zero) ||
+			c.RemoteAddress.Equal(net.IPv6unspecified) {
+
+			return true
+		}
+	}
+	return false
 }
