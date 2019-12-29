@@ -45,15 +45,6 @@ again:
 	remote, b = nextField(b)
 	state, b = nextField(b)
 
-	parseHex(state) // xxx
-
-	/*
-		if parseHex(state) != p.wantedState {
-			p.b = nextLine(b)
-			goto again
-		}
-	*/
-
 	_, b = nextField(b) // 'tx_queue' column
 	_, b = nextField(b) // 'rx_queue' column
 	_, b = nextField(b) // 'tr' column
@@ -63,6 +54,7 @@ again:
 
 	p.c.LocalAddress, p.c.LocalPort = scanAddressNA(local, &p.bytesLocal)
 	p.c.RemoteAddress, p.c.RemotePort = scanAddressNA(remote, &p.bytesRemote)
+	p.c.State = tcpState(parseHex(state))
 	p.c.inode = parseDec(inode)
 	p.b = nextLine(b)
 	if _, alreadySeen := p.seen[p.c.inode]; alreadySeen {

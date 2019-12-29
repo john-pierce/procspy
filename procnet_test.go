@@ -21,6 +21,7 @@ func TestProcNet(t *testing.T) {
 			LocalPort:     0xa6c0,
 			RemoteAddress: net.IP([]byte{0, 0, 0, 0}),
 			RemotePort:    0x0,
+			State:         ESTABLISHED,
 			inode:         5107,
 		},
 		{
@@ -28,6 +29,7 @@ func TestProcNet(t *testing.T) {
 			LocalPort:     0x006f,
 			RemoteAddress: net.IP([]byte{0, 0, 0, 0}),
 			RemotePort:    0x0,
+			State:         ESTABLISHED,
 			inode:         5084,
 		},
 		{
@@ -35,6 +37,7 @@ func TestProcNet(t *testing.T) {
 			LocalPort:     0x0019,
 			RemoteAddress: net.IP([]byte{0, 0, 0, 0}),
 			RemotePort:    0x0,
+			State:         ESTABLISHED,
 			inode:         10550,
 		},
 		{
@@ -42,6 +45,7 @@ func TestProcNet(t *testing.T) {
 			LocalPort:     0xe4d7,
 			RemoteAddress: net.IP([]byte{0xc0, 0x1e, 0xfc, 0x57}),
 			RemotePort:    0x01bb,
+			State:         ESTABLISHED,
 			inode:         639474,
 		},
 		{
@@ -49,6 +53,7 @@ func TestProcNet(t *testing.T) {
 			LocalPort:     111,
 			RemoteAddress: net.IP([]byte{0, 0, 0, 0}),
 			RemotePort:    0,
+			State:         LISTEN,
 			inode:         11221,
 		},
 	}
@@ -131,6 +136,7 @@ broken line
 			LocalPort:     0xa6c0,
 			RemoteAddress: net.IP([]byte{0, 0, 0, 0}),
 			RemotePort:    0x0,
+			State:         ESTABLISHED,
 		},
 	}
 
@@ -158,6 +164,7 @@ func TestProcNetFiltersDuplicates(t *testing.T) {
 		LocalPort:     0xa6c0,
 		RemoteAddress: net.IP([]byte{0, 0, 0, 0}),
 		RemotePort:    0x0,
+		State:         ESTABLISHED,
 		inode:         5107,
 	}
 	have := p.Next()

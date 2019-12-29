@@ -29,10 +29,6 @@ func parseDarwinNetstat(out string) []Connection {
 			continue
 		}
 
-		/*if fields[5] != "ESTABLISHED" {
-			continue
-		}*/
-
 		t := Connection{
 			Transport: "tcp",
 		}
@@ -74,6 +70,10 @@ func parseDarwinNetstat(out string) []Connection {
 		}
 
 		t.RemotePort = uint16(p)
+
+		if t.State, err = tcpStateString(fields[5]); err != nil {
+			t.State = 0
+		}
 
 		res = append(res, t)
 	}

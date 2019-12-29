@@ -7,9 +7,24 @@ import (
 	"net"
 )
 
+//go:generate enumer -type=tcpState
+
+// Fortunately these are consistent across darwin and linux
+type tcpState int
+
 const (
-	tcpEstablished = 1 // according to /include/net/tcp_states.h
-	tcpListen      = 10
+	UNKNOWN tcpState = iota
+	ESTABLISHED
+	SYN_SENT
+	SYN_RECV
+	FIN_WAIT1
+	FIN_WAIT2
+	TIME_WAIT
+	CLOSE
+	CLOSE_WAIT
+	LAST_ACK
+	LISTEN
+	CLOSING
 )
 
 // Connection is a (TCP) connection. The Proc struct might not be filled in.
@@ -19,6 +34,7 @@ type Connection struct {
 	LocalPort     uint16
 	RemoteAddress net.IP
 	RemotePort    uint16
+	State         tcpState
 	inode         uint64
 	Proc
 }
@@ -43,14 +59,7 @@ func Connections(processes bool) (ConnIter, error) {
 	return cbConnections(processes)
 }
 
+// Deprecated: Query the Connection.State field instead.
 func IsListening(c Connection) bool {
-	if c.Transport == "tcp" {
-		if c.RemoteAddress.Equal(net.IPv4zero) ||
-			c.RemoteAddress.Equal(net.IPv6zero) ||
-			c.RemoteAddress.Equal(net.IPv6unspecified) {
-
-			return true
-		}
-	}
-	return false
+	return c.State == LISTEN
 }

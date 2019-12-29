@@ -23,6 +23,7 @@ tcp4       0      0  *.88                   *.*                    LISTEN`
 			LocalPort:     58287,
 			RemoteAddress: net.ParseIP("1.2.3.4"),
 			RemotePort:    443,
+			State:         ESTABLISHED,
 		},
 		{
 			Transport:     "tcp",
@@ -30,6 +31,7 @@ tcp4       0      0  *.88                   *.*                    LISTEN`
 			LocalPort:     58279,
 			RemoteAddress: net.ParseIP("2.3.4.5"),
 			RemotePort:    80,
+			State:         ESTABLISHED,
 		},
 		{
 			Transport:     "tcp",
@@ -37,6 +39,7 @@ tcp4       0      0  *.88                   *.*                    LISTEN`
 			LocalPort:     58276,
 			RemoteAddress: net.ParseIP("44.55.66.77"),
 			RemotePort:    443,
+			State:         ESTABLISHED,
 		},
 		{
 			Transport:     "tcp",
@@ -44,6 +47,7 @@ tcp4       0      0  *.88                   *.*                    LISTEN`
 			LocalPort:     16423,
 			RemoteAddress: net.ParseIP("0.0.0.0"),
 			RemotePort:    0,
+			State:         LISTEN,
 		},
 		{
 			Transport:     "tcp",
@@ -51,6 +55,7 @@ tcp4       0      0  *.88                   *.*                    LISTEN`
 			LocalPort:     88,
 			RemoteAddress: net.ParseIP("0.0.0.0"),
 			RemotePort:    0,
+			State:         LISTEN,
 		},
 		/*
 			{
